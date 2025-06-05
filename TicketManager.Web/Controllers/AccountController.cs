@@ -30,9 +30,18 @@ namespace TicketManager.Web.Controllers
 
             HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
             HttpContext.Session.SetString("Nombre", usuario.Nombre);
-            HttpContext.Session.SetString("Rol", usuario.Rol?.Nombre ?? "");
+            HttpContext.Session.SetString("Rol", usuario.Rol?.Nombre ?? ""); 
 
-            return RedirectToAction("Index", "Home");
+            string rol = usuario.Rol?.Nombre ?? "";
+
+            if (rol == "Cliente")
+                return RedirectToAction("Dashboard", "Cliente");
+            else if (rol == "Técnico")
+                return RedirectToAction("Dashboard", "Tecnico");
+            else if (rol == "Admin")
+                return RedirectToAction("Dashboard", "Admin");
+
+            return RedirectToAction("Login");
         }
 
         public IActionResult Logout()

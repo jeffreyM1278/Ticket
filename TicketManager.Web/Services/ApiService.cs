@@ -1,4 +1,6 @@
-﻿namespace TicketManager.Web.Services
+﻿using TicketManager.Web.Models;
+namespace TicketManager.Web.Services
+
 {
     public class ApiService
     {
@@ -8,7 +10,10 @@
         {
             _http = http;
         }
-
+        public async Task CrearTicketAsync(TicketViewModel model)
+        {
+            await _http.PostAsJsonAsync("api/tickets", model);
+        }
         public async Task<Usuario> LoginAsync(string correo, string contraseña)
         {
             var body = new { Correo = correo, Contraseña = contraseña };

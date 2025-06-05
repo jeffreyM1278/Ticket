@@ -1,0 +1,29 @@
+﻿@model TicketManager.Web.Models.TicketViewModel
+
+<h2>Crear nuevo ticket</h2>
+
+<form asp-action="CrearTicket" method="post">
+    <div>
+        <label asp-for="Titulo"></label>
+        <input asp-for="Titulo" />
+        <span asp-validation-for="Titulo"></span>
+    </div>
+
+    <div>
+        <label asp-for="Descripcion"></label>
+        <textarea asp-for="Descripcion"></textarea>
+        <span asp-validation-for="Descripcion"></span>
+    </div>
+
+    <div>
+        <label asp-for="Prioridad"></label>
+        <select asp-for="Prioridad">
+            <option>Crítico</option>
+            <option>Importante</option>
+            <option>Bajo</option>
+        </select>
+        <span asp-validation-for="Prioridad"></span>
+    </div>
+
+    <button type="submit">Crear Ticket</button>
+</form>

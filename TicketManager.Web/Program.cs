@@ -1,30 +1,25 @@
-using TicketManager.Web.Services;
+﻿using TicketManager.Web.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-
-// Add services to the container.
+// ✅ Agregar servicios al contenedor
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession(); // Necesario para HttpContext.Session
+
+// ✅ Agregar cliente HTTP para consumir API
+builder.Services.AddHttpClient<ApiService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5001/"); // URL de tu API
+});
 
 var app = builder.Build();
 
-
-
-builder.Services.AddHttpClient<ApiService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:5001/"); // URL del proyecto API
-});
-
-
-
-
-
-// Configure the HTTP request pipeline.
+// ✅ Middleware del pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -33,10 +28,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();       // <-- ¡Importante!
 app.UseAuthorization();
 
+// ✅ Ruta por defecto al login
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();
