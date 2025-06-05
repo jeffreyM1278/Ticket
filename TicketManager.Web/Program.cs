@@ -1,9 +1,25 @@
+using TicketManager.Web.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+
+builder.Services.AddHttpClient<ApiService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5001/"); // URL del proyecto API
+});
+
+
+builder.Services.AddSession();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+app.UseSession();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
